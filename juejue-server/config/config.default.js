@@ -44,6 +44,11 @@ module.exports = appInfo => {
     agent: false,
   };
 
+  // jwt的配置
+  config.jwt = {
+    secret: 'giantPoop', // 自定义 token 的加密条件字符串, 小心不要泄露出去
+  };
+
   // add your middleware config here
   config.middleware = [];
 
