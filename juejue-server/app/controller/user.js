@@ -3,6 +3,7 @@
 const Controller = require('egg').Controller;
 
 class UserController extends Controller {
+  // 注册
   async register() {
     const { ctx } = this;
     const { username, password } = ctx.request.body; // 获取注册需要的参数
@@ -54,6 +55,7 @@ class UserController extends Controller {
     }
   }
 
+  // 登录
   async login() {
     // app 为全局属性，相当于所有的插件方法都植入到了app对象
     const { ctx, app } = this;
@@ -91,6 +93,21 @@ class UserController extends Controller {
       message: '登录成功',
       data: {
         token,
+      },
+    };
+  }
+
+  // 验证方法
+  async test() {
+    const { ctx, app } = this;
+    // 通过token解析，拿到user_id
+    const token = ctx.request.header.authorization; // 通过app.jwt.verify + 加密字符串 解析出token的值
+    const decode = await app.jwt.verify(token, app.config.jwt.secret);
+    ctx.body = {
+      code: 200,
+      message: '获取成功',
+      data: {
+        ...decode,
       },
     };
   }
